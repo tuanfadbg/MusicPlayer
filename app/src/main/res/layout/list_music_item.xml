@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="111"
+        android:textAlignment="center"
+        android:padding="11dp"
+        android:textSize="16dp"/>
+    <TextView
+        android:layout_toRightOf="@+id/position"
+        android:id="@+id/name"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="6dp"
+        android:textSize="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cớ sao giờ lại chia xa"
+        android:textColor="#312f2f"/>
+    <TextView
+        android:layout_toRightOf="@+id/position"
+        android:layout_below="@+id/name"
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Only C"
+        android:paddingLeft="10dp"
+        android:paddingBottom="3dp"/>
+</RelativeLayout>

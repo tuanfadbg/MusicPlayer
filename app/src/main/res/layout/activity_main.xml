@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <FrameLayout
+        android:layout_above="@+id/seek_bar_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main">
+        <fragment
+            android:name="com.tuanfadbg.musicplayer.ListMusicFragment"
+            android:id="@+id/main_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+    <SeekBar
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seek_bar_player"
+        android:layout_above="@+id/mini_player"
+        android:visibility="gone"
+        android:paddingTop="10dp"/>
+    <LinearLayout
+        android:id="@+id/mini_player"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:weightSum="20"
+        >
+        <RelativeLayout
+            android:id="@+id/info_playing"
+            android:layout_weight="11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/name_playing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cớ sao giờ lại chia xa"
+                android:textSize="18dp"
+                android:maxHeight="33dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="8dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="1dp"/>
+            <TextView
+                android:id="@+id/author_playing"
+                android:layout_below="@id/name_playing"
+                android:paddingLeft="10dp"
+                android:paddingBottom="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bich Phuong"/>
+        </RelativeLayout>
+        <ImageButton
+            android:layout_weight="3"
+            android:id="@+id/btn_reload"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_reload"
+            android:visibility="gone"
+            />
+        <ImageButton
+            android:layout_weight="3"
+            android:id="@+id/btn_previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_previous"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_play"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_stop" />
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_next" />
+        <ImageButton
+            android:id="@+id/btn_shuffler"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_shuffle"
+            android:visibility="gone"/>
+    </LinearLayout>
+</RelativeLayout>
