@@ -1,5 +1,6 @@
 package com.tuanfadbg.musicplayer;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
             changeToListMusicFragment();
             changeToListMusicLayout();
             isListMusic = false;
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     private void changeToListMusicLayout() {
@@ -57,11 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeToListMusicFragment() {
-        MusicInfoFragment musicInfoFragment = new MusicInfoFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.main, musicInfoFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        getFragmentManager().popBackStack();
     }
 
     private void changeToMusicInfoLayout() {
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void hideSeekBar() {
-        seekBarPlayer.setVisibility(View.INVISIBLE);
+        seekBarPlayer.setVisibility(View.GONE);
     }
 
     private void changeToMusicInfoFragment() {
