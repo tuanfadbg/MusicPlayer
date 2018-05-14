@@ -3,8 +3,12 @@ package com.tuanfadbg.musicplayer.Service;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Binder;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.tuanfadbg.musicplayer.ListMusic;
 import com.tuanfadbg.musicplayer.Song;
@@ -15,30 +19,35 @@ public class MusicService extends Service{
     MediaPlayer player;
     ArrayList<Song> songs;
     int position;
+
+    private IBinder musicBind = new MusicBinder();
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return musicBind;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (player == null) {
-            player = new MediaPlayer();
-
-        }
-        if (songs == null) {
-            setSongs(new ListMusic().getList());
-        }
-
-        return super.onStartCommand(intent, flags, startId);
-    }
-    public MediaPlayer getPlayer() {
-        return player;
+    public boolean onUnbind(Intent intent) {
+        player.stop();
+        player.release();
+        return true;
     }
 
-    public void setPlayer(MediaPlayer player) {
-        this.player = player;
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        player = new MediaPlayer();
+        initMusicPlayer();
+        position = 0;
+    }
+    public void initMusicPlayer() {
+        player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
     }
 
     public ArrayList<Song> getSongs() {
@@ -57,4 +66,44 @@ public class MusicService extends Service{
         this.position = position;
     }
 
+    public void resume() {
+        player.start();
+    }
+
+    public void pause() {
+        player.pause();
+    }
+
+    public class MusicBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
+    }
+    public boolean isPlaying() {
+        return player.isPlaying();
+    }
+    public void play() {
+        player.reset();
+        Log.e("Service", "play " + getPosition());
+        player = MediaPlayer.create(this, songs.get(position).getResource());
+        player.start();
+    }
+    public void next() {
+        position = (position + 1)%songs.size();
+        play();
+    }
+    public void previous() {
+        position = (position + songs.size() - 1)%songs.size();
+        play();
+    }
+    public void seekTo(int msec) {
+        player.seekTo(msec);
+    }
+
+    public int getDuration() {
+        return player.getDuration();
+    }
+    public int getCurrentPosition() {
+        return player.getCurrentPosition();
+    }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,6 +26,12 @@ public class ListMusicFragment extends Fragment {
         View view = inflater.inflate(R.layout.list_music_fragment, container, false);
         declare(view);
         listViewMusic.setAdapter(listMusicAdapter);
+        listViewMusic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((MainActivity) getActivity()).play(position);
+            }
+        });
         return view;
     }
     private void declare(View view) {

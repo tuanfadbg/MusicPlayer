@@ -17,17 +17,40 @@
             android:layout_height="match_parent"/>
 
     </FrameLayout>
-    <SeekBar
-        android:background="@color/colorPrimary"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/seek_bar_player"
-        android:layout_above="@+id/mini_player"
+        android:id="@id/seek_bar_player"
         android:visibility="gone"
-        android:paddingTop="10dp"/>
+        android:background="@color/colorPrimary"
+        android:layout_above="@+id/mini_player"
+
+        android:paddingTop="10dp"
+        android:weightSum="20">
+        <TextView
+            android:id="@+id/current_duration"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="0:00"/>
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_weight="16"
+            android:layout_height="wrap_content"
+            android:id="@+id/seek_bar"/>
+        <TextView
+            android:layout_weight="2"
+            android:id="@+id/duration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/mini_player"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
