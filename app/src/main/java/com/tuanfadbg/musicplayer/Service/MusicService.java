@@ -94,6 +94,9 @@ public class MusicService extends Service{
             @Override
             public void onCompletion(MediaPlayer mp) {
                 next();
+                if (serviceCallbacks != null) {
+                    serviceCallbacks.changeLayoutWhenAutoNextPlayer();
+                }
             }
         });
     }

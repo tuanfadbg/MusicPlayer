@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
 
     @Override
     public void changeLayoutWhenAutoNextPlayer() {
-
+        changelayoutOnPlaying();
     }
 
     private void declare() {
