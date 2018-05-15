@@ -19,6 +19,7 @@ public class MusicService extends Service{
     MediaPlayer player;
     ArrayList<Song> songs;
     int position;
+    IServiceCallbacks serviceCallbacks;
 
     private IBinder musicBind = new MusicBinder();
     @Nullable
@@ -34,9 +35,8 @@ public class MusicService extends Service{
         return true;
     }
 
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
+    public void setServiceCallbacks(IServiceCallbacks callbacks) {
+        serviceCallbacks = callbacks;
     }
 
     @Override
@@ -87,6 +87,15 @@ public class MusicService extends Service{
         Log.e("Service", "play " + getPosition());
         player = MediaPlayer.create(this, songs.get(position).getResource());
         player.start();
+        setAutoNext();
+    }
+    public void setAutoNext() {
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                next();
+            }
+        });
     }
     public void next() {
         position = (position + 1)%songs.size();

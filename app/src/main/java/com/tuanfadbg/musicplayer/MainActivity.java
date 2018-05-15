@@ -16,12 +16,13 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.tuanfadbg.musicplayer.Service.IServiceCallbacks;
 import com.tuanfadbg.musicplayer.Service.MusicService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IServiceCallbacks {
     LinearLayout miniPlayer, seekBarPlayer;
     RelativeLayout infoPlaying;
     ImageButton btnPrev, btnPlay, btnNext, btnReload, btnShuffler;
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             listMusicFragment = (ListMusicFragment) getFragmentManager().findFragmentById(R.id.main_fragment);
             musicService.setSongs(listMusicFragment.listMusic);
             musicBound = true;
+            musicService.setServiceCallbacks(MainActivity.this);
         }
 
         @Override
@@ -212,21 +214,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void declare() {
-        infoPlaying = findViewById(R.id.info_playing);
-        seekBar = findViewById(R.id.seek_bar);
-        seekBarPlayer = findViewById(R.id.seek_bar_player);
-        miniPlayer = findViewById(R.id.mini_player);
-        btnPrev = findViewById(R.id.btn_previous);
-        btnPlay = findViewById(R.id.btn_play);
-        btnNext = findViewById(R.id.btn_next);
-        btnReload = findViewById(R.id.btn_reload);
-        btnShuffler = findViewById(R.id.btn_shuffler);
-        namePlaying = findViewById(R.id.name_playing);
-        authorPlaying = findViewById(R.id.author_playing);
-        currentDuration = findViewById(R.id.current_duration);
-        duration = findViewById(R.id.duration);
-    }
 
     public void play(int position) {
         musicService.setPosition(position);
@@ -280,5 +267,26 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setMax(musicService.getDuration());
         String strDuration = simpleDateFormat.format(new Date(musicService.getDuration()));
         duration.setText(strDuration);
+    }
+
+    @Override
+    public void changeLayoutWhenAutoNextPlayer() {
+
+    }
+
+    private void declare() {
+        infoPlaying = findViewById(R.id.info_playing);
+        seekBar = findViewById(R.id.seek_bar);
+        seekBarPlayer = findViewById(R.id.seek_bar_player);
+        miniPlayer = findViewById(R.id.mini_player);
+        btnPrev = findViewById(R.id.btn_previous);
+        btnPlay = findViewById(R.id.btn_play);
+        btnNext = findViewById(R.id.btn_next);
+        btnReload = findViewById(R.id.btn_reload);
+        btnShuffler = findViewById(R.id.btn_shuffler);
+        namePlaying = findViewById(R.id.name_playing);
+        authorPlaying = findViewById(R.id.author_playing);
+        currentDuration = findViewById(R.id.current_duration);
+        duration = findViewById(R.id.duration);
     }
 }
