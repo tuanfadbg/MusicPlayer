@@ -140,11 +140,15 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
 
     @Override
     protected void onDestroy() {
-        mHandler.removeCallbacks(runable);
+        stopmHandler();
         stopService(playIntent);
         unbindService(musicConnection);
         musicService = null;
         super.onDestroy();
+    }
+
+    private void stopmHandler() {
+        mHandler.removeCallbacks(runable);
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -220,12 +224,12 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
         musicService.play();
         changelayoutOnPlaying();
         miniPlayer.setVisibility(View.VISIBLE);
-        changeMaxDuration();
+        changeMaxDurationAndResetSeekBar();
         setRunableSeekBar();
     }
 
     private void setRunableSeekBar() {
-        changeMaxDuration();
+        changeMaxDurationAndResetSeekBar();
         mHandler = new Handler();
         runable = new Runnable() {
             @Override
@@ -256,22 +260,25 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
     public void next() {
         musicService.next();
         changelayoutOnPlaying();
-        changeMaxDuration();
+        changeMaxDurationAndResetSeekBar();
     }
     public void previous() {
         musicService.previous();
         changelayoutOnPlaying();
-        changeMaxDuration();
+        changeMaxDurationAndResetSeekBar();
     }
-    public void changeMaxDuration() {
+    public void changeMaxDurationAndResetSeekBar() {
         seekBar.setMax(musicService.getDuration());
         String strDuration = simpleDateFormat.format(new Date(musicService.getDuration()));
         duration.setText(strDuration);
+        setSeekbar(0);
     }
 
     @Override
     public void changeLayoutWhenAutoNextPlayer() {
+        changeMaxDurationAndResetSeekBar();
         changelayoutOnPlaying();
+
     }
 
     private void declare() {
