@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
     private void changeToMusicInfoFragment() {
         MusicInfoFragment musicInfoFragment = new MusicInfoFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.enter_from_right, R.animator.exit_from_left, R.animator.enter_from_right, R.animator.exit_from_right);
         transaction.add(R.id.main, musicInfoFragment);
         transaction.addToBackStack(null);
         transaction.commit();
