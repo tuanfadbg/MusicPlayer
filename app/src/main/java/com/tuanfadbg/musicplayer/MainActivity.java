@@ -90,6 +90,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                setSeekbar(progress);
+                musicService.seekTo(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void changeLayoutOnStop() {
@@ -217,18 +234,17 @@ public class MainActivity extends AppCompatActivity {
         changelayoutOnPlaying();
         miniPlayer.setVisibility(View.VISIBLE);
         changeMaxDuration();
-        setSeekBar();
+        setRunableSeekBar();
     }
 
-    private void setSeekBar() {
+    private void setRunableSeekBar() {
         changeMaxDuration();
         mHandler = new Handler();
         runable = new Runnable() {
             @Override
             public void run() {
                 if (musicService.isPlaying()) {
-                    setCurrentProgressSeekBar();
-                    setCurrentTimeInSeekBar();
+                    setSeekbar(musicService.getCurrentPosition());
                 }
                 mHandler.postDelayed(this, 1000);
             }
@@ -237,12 +253,17 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.runOnUiThread(runable);
     }
 
-    private void setCurrentTimeInSeekBar() {
-        currentDuration.setText(simpleDateFormat.format(new Date(musicService.getCurrentPosition())));
+    private void setSeekbar(int currentPosition) {
+        setCurrentProgressSeekBar(currentPosition);
+        setCurrentTimeInSeekBar(currentPosition);
     }
 
-    private void setCurrentProgressSeekBar() {
-        seekBar.setProgress(musicService.getCurrentPosition());
+    private void setCurrentTimeInSeekBar(int currentTimeInSeekBar) {
+        currentDuration.setText(simpleDateFormat.format(new Date(currentTimeInSeekBar)));
+    }
+
+    private void setCurrentProgressSeekBar(int progressSeekBar) {
+        seekBar.setProgress(progressSeekBar);
     }
 
     public void next() {

@@ -97,7 +97,7 @@ public class MusicService extends Service{
         play();
     }
     public void seekTo(int msec) {
-        player.seekTo(msec);
+        player.seekTo(msec);;
     }
 
     public int getDuration() {
