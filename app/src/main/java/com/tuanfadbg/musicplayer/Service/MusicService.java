@@ -14,13 +14,14 @@ import com.tuanfadbg.musicplayer.ListMusic;
 import com.tuanfadbg.musicplayer.Song;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MusicService extends Service{
     MediaPlayer player;
     ArrayList<Song> songs;
     int position;
     IServiceCallbacks serviceCallbacks;
-
+    boolean isShuffle = false;
     private IBinder musicBind = new MusicBinder();
     @Nullable
     @Override
@@ -78,6 +79,10 @@ public class MusicService extends Service{
         player.setLooping(isLooping);
     }
 
+    public void setShuffle(boolean shuffle) {
+        this.isShuffle = shuffle;
+    }
+
     public class MusicBinder extends Binder {
         public MusicService getService() {
             return MusicService.this;
@@ -105,11 +110,19 @@ public class MusicService extends Service{
         });
     }
     public void next() {
-        position = (position + 1)%songs.size();
+        if (isShuffle) {
+            position = getNextPositionShuffle();
+        } else {
+            position = (position + 1)%songs.size();
+        }
         play();
     }
     public void previous() {
-        position = (position + songs.size() - 1)%songs.size();
+        if (isShuffle) {
+            position = getNextPositionShuffle();
+        } else {
+            position = (position + songs.size() - 1)%songs.size();
+        }
         play();
     }
     public void seekTo(int msec) {
@@ -121,5 +134,17 @@ public class MusicService extends Service{
     }
     public int getCurrentPosition() {
         return player.getCurrentPosition();
+    }
+    public int getNextPositionShuffle() {
+        int pos = getPosition();
+        int temp = new Random().nextInt(songs.size());
+        while (pos != temp) {
+            temp = new Random().nextInt(songs.size());
+            if (pos != temp){
+                pos = temp;
+                break;
+            }
+        }
+        return pos;
     }
 }

@@ -21,12 +21,15 @@ import com.tuanfadbg.musicplayer.Service.IServiceCallbacks;
 import com.tuanfadbg.musicplayer.Service.MusicService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements IServiceCallbacks {
     LinearLayout miniPlayer, seekBarPlayer;
     RelativeLayout infoPlaying;
-    ImageButton btnPrev, btnPlay, btnNext, btnReload, btnShuffler;
+    ImageButton btnPrev, btnPlay, btnNext, btnReload, btnShuffle;
     TextView namePlaying, authorPlaying, currentDuration, duration;
     SeekBar seekBar;
     MusicService musicService;
@@ -106,6 +109,21 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
                     btnReload.setBackgroundResource(R.drawable.ic_background_active);
                 }
                 musicService.setLooping(isLooping);
+            }
+        });
+        btnShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isShuffle) {
+                    isShuffle = false;
+
+                    btnShuffle.setBackgroundColor(Color.TRANSPARENT);
+
+                } else {
+                    isShuffle = true;
+                    btnShuffle.setBackgroundResource(R.drawable.ic_background_active);
+                }
+                musicService.setShuffle(isShuffle);
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -199,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
         hideSeekBar();
         infoPlaying.setVisibility(View.VISIBLE);
         btnReload.setVisibility(View.GONE);
-        btnShuffler.setVisibility(View.GONE);
+        btnShuffle.setVisibility(View.GONE);
         miniPlayer.setWeightSum(20);
         miniPlayer.setMinimumHeight(0);
     }
@@ -213,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
         showSeekBar();
         infoPlaying.setVisibility(View.GONE);
         btnReload.setVisibility(View.VISIBLE);
-        btnShuffler.setVisibility(View.VISIBLE);
+        btnShuffle.setVisibility(View.VISIBLE);
         miniPlayer.setWeightSum(15);
         miniPlayer.setMinimumHeight(150);
     }
@@ -308,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
         btnPlay = findViewById(R.id.btn_play);
         btnNext = findViewById(R.id.btn_next);
         btnReload = findViewById(R.id.btn_reload);
-        btnShuffler = findViewById(R.id.btn_shuffler);
+        btnShuffle = findViewById(R.id.btn_shuffler);
         namePlaying = findViewById(R.id.name_playing);
         authorPlaying = findViewById(R.id.author_playing);
         currentDuration = findViewById(R.id.current_duration);

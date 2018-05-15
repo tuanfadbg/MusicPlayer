@@ -1,15 +1,26 @@
 package com.tuanfadbg.musicplayer;
 
 public class Song {
+    private int id;
     private String name;
     private int resource;
     private String author;
-    public Song(String name, int resource, String author) {
 
+    public Song(int id, String name, int resource, String author) {
+        this.id = id;
         this.name = name;
         this.resource = resource;
         this.author = author;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
