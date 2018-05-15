@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
     ListMusicFragment listMusicFragment;
     Runnable runable;
     Handler mHandler;
+    boolean isLooping = false;
+    boolean isShuffle = false;
+
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
 
     @Override
@@ -89,6 +93,19 @@ public class MainActivity extends AppCompatActivity implements IServiceCallbacks
                     resume();
                     changelayoutOnPlaying();
                 }
+            }
+        });
+        btnReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isLooping) {
+                    isLooping = false;
+                    btnReload.setBackgroundColor(Color.TRANSPARENT);
+                } else {
+                    isLooping = true;
+                    btnReload.setBackgroundResource(R.drawable.ic_background_active);
+                }
+                musicService.setLooping(isLooping);
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

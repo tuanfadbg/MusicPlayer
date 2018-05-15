@@ -74,6 +74,10 @@ public class MusicService extends Service{
         player.pause();
     }
 
+    public void setLooping(boolean isLooping) {
+        player.setLooping(isLooping);
+    }
+
     public class MusicBinder extends Binder {
         public MusicService getService() {
             return MusicService.this;
